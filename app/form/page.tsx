@@ -42,7 +42,7 @@ export default function ApplicationFormPage() {
       <Card className="w-full max-w-2xl shadow-lg">
         <CardHeader className="space-y-1 text-center">
           <CardTitle className="text-4xl font-bold py-2">Ariza Formasi</CardTitle>
-          <CardDescription>Ariza yuborish uchun kerakli ustunlarni to'ldiring.</CardDescription>
+          <CardDescription className="text-base">Ariza yuborish uchun kerakli ustunlarni to'ldiring.</CardDescription>
         </CardHeader>
         <CardContent>
           <form id="application-form" action={handleSubmit} className="space-y-6">
@@ -56,29 +56,31 @@ export default function ApplicationFormPage() {
                 <Input id="surname" name="surname" placeholder="Familiya" required />
               </div>
             </div>
-            <div className="space-y-2">
-              <Label htmlFor="phoneNumber">Telefon raqam</Label>
-              <Input id="phoneNumber" name="phoneNumber" placeholder="+998 XX XXX XX XX" required type="tel" />
-            </div>
-            <div className="space-y-2">
-              <Label htmlFor="groupNumber">Qaysi guruhda o'qiysiz</Label>
-              <Input
-                id="groupNumber"
-                name="groupNumber"
-                placeholder="Masalan: 101"
-                type="text"
-                inputMode="numeric"
-                pattern="\d{3}"
-                maxLength={3}
-                required
-              />
+            <div className="flex sm:items-center flex-col sm:flex-row gap-2">
+              <div className="space-y-2 flex-1">
+                <Label htmlFor="phoneNumber">Telefon raqam</Label>
+                <Input id="phoneNumber" name="phoneNumber" placeholder="+998 XX XXX XX XX" required type="tel" />
+              </div>
+              <div className="space-y-2 flex-1">
+                <Label htmlFor="groupNumber">Qaysi guruhda o'qiysiz</Label>
+                <Input
+                  id="groupNumber"
+                  name="groupNumber"
+                  placeholder="Masalan: 101"
+                  type="text"
+                  inputMode="numeric"
+                  pattern="\d{3}"
+                  maxLength={3}
+                  required
+                />
+              </div>
             </div>
             <div className="space-y-2">
               <Label htmlFor="message">Ariza mazmuni</Label>
-              <Textarea id="message" name="message" placeholder="Ariza: " required rows={5} />
+              <Textarea id="message" name="message" placeholder="Men " required rows={5} />
             </div>
-            <Button type="submit" className="w-full" disabled={isSubmitting}>
-              {isSubmitting ? "Submitting..." : "Submit Application"}
+            <Button type="submit" className="w-full flex items-center justify-center bg-indigo-600 hover:bg-indigo-700 h-12 px-8 text-lg" disabled={isSubmitting}>
+              {isSubmitting ? "Yuborilmoqda..." : "Ariza yuborish"}
             </Button>
           </form>
         </CardContent>

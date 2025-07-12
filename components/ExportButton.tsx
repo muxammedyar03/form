@@ -22,7 +22,6 @@ export function ExportButton() {
 
       const worksheet = XLSX.utils.json_to_sheet(json.data)
       const workbook = XLSX.utils.book_new()
-      console.log(workbook);
       XLSX.utils.book_append_sheet(workbook, worksheet, "Applications")
       XLSX.writeFile(workbook, "applications.xlsx")
     } catch (error) {

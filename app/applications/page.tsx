@@ -16,7 +16,6 @@ export default async function ApplicationsPage() {
   }
 
   const { applications, totalApplications, applicationsToday } = await getApplications()
-  console.log(applications);
   
   return (
     <div className="min-h-[100dvh] bg-gray-100 p-4 dark:bg-background md:p-8">

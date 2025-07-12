@@ -2,6 +2,9 @@
 
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
+import Image from "next/image"
+import logo from "../public/logo.jpg"
+import { ArrowRight, LogInIcon } from "lucide-react"
 
 export default function HomePage() {
   return (
@@ -10,21 +13,27 @@ export default function HomePage() {
         {/* Header */}
         <header className="flex justify-between items-center p-4 border-b">
           <div className="flex items-center space-x-2">
-            <span className="text-2xl font-bold">Veteraneniriya Instituti</span>
+            <Image
+              src={logo}
+              alt="University Logo"
+              width={70}
+              height={70}
+              className="rounded-full"
+            />
           </div>
           <Link href="/applications">
-            <Button variant="outline">Login</Button>
+            <Button variant="outline">Kirish <LogInIcon/></Button>
           </Link>
         </header>
 
         {/* Main content */}
         <main className="flex flex-col items-center justify-center flex-1 text-center p-6">
-          <h1 className="text-2xl md:text-3xl lg:text-5xl !leading-[3.4rem] font-semibold mb-4 md:w-3/4 lg:w-1/2">
-            Qoraqalpogʻiston Respublikasi Veteraneniriya Instituti uchun granga online ariza topshirish
+          <h1 className="text-2xl md:text-3xl lg:text-4xl !leading-[3rem] font-bold mb-4 md:w-3/4 lg:w-1/2">
+            SAMARQAND DAVLAT VETERINARIYA MEDITSINASI, CHORVACHILIK VA BIOTEXNOLOGIYALAR UNIVERSITETI NUKUS FILIALI
           </h1>
 
           <Link href="/form">
-            <Button className="mt-6 px-8 py-3 text-lg">Ariza topshirish</Button>
+            <Button className="mt-6 flex items-center justify-center bg-sky-600 hover:bg-sky-700 h-14 px-8 text-lg">Ariza topshirish </Button>
           </Link>
         </main>
       </div>

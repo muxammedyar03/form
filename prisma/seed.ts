@@ -13,7 +13,6 @@ async function main() {
       password: hashedPassword,
     },
   })
-  console.log('User "admin" created/updated with password "adminpassword".')
 }
 
 main()
