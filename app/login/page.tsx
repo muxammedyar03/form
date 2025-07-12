@@ -24,32 +24,29 @@ export default function LoginPage() {
       toast.error(state.error)
     }
   }, [state])
-
+  // ariza-admin1101
   return (
-    <div className="flex min-h-[100dvh] items-center justify-center bg-gray-100 px-4 dark:bg-gray-950">
+    <div className="flex min-h-[100dvh] items-center justify-center bg-gray-100 px-4 dark:bg-background">
       <Card className="w-full max-w-sm">
         <CardHeader className="space-y-1 text-center">
-          <CardTitle className="text-2xl font-bold">Login</CardTitle>
-          <CardDescription>Enter your username and password to access the applications.</CardDescription>
+          <CardTitle className="text-3xl font-bold py-3">Kirish</CardTitle>
+          <CardDescription>Tizimga kirish uchun login va parolni kiriting</CardDescription>
         </CardHeader>
         <CardContent>
           <form action={formAction} className="space-y-4">
             <div className="space-y-2">
               <Label htmlFor="username">Username</Label>
-              <Input id="username" name="username" placeholder="admin" required type="text" />
+              <Input id="username" name="username" placeholder="login" required type="text" />
             </div>
             <div className="space-y-2">
               <Label htmlFor="password">Password</Label>
-              <Input id="password" name="password" required type="password" />
+              <Input id="password" name="password" required placeholder="parol" type="password" />
             </div>
             <Button className="w-full" type="submit">
-              Login
+              Kirish
             </Button>
           </form>
         </CardContent>
-        <CardFooter className="text-center text-sm text-muted-foreground">
-          <p>Use username: `admin` and password: `adminpassword`</p>
-        </CardFooter>
       </Card>
     </div>
   )

@@ -8,25 +8,39 @@ export async function submitApplication(formData: FormData) {
   const surname = formData.get("surname") as string
   const phoneNumber = formData.get("phoneNumber") as string
   const message = formData.get("message") as string
+  const groupNumber = Number(formData.get("groupNumber"))
 
-  if (!name || !surname || !phoneNumber || !message) {
+  if (!name || !surname || !phoneNumber || !message || !groupNumber) {
     return { error: "All fields are required." }
+  }
+  if (groupNumber < 101 || groupNumber > 113) {
+    return { success: false, error: "Ariza topshirish faqat 101–113-guruhlar uchun amalga oshiriladi." }
   }
 
   try {
+    const existingApplication = await prisma.application.findFirst({
+      where: {
+        phoneNumber,
+        name,
+      },
+    })
+    if (existingApplication) {
+      return { success: false, error: "Sizning arizangiz allaqachon mavjud."}
+    }
     await prisma.application.create({
       data: {
         name,
         surname,
         phoneNumber,
+        groupNumber,
         message,
-      },
+      }
     })
-    revalidatePath("/applications") // Revalidate the applications page to show new data
+    revalidatePath("/applications")
     return { success: true }
   } catch (error) {
     console.error("Error submitting application:", error)
-    return { error: "Failed to submit application." }
+    return { error: "Ariza yuborishda xatolik yuz berdi." }
   }
 }
 
