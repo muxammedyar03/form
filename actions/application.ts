@@ -56,12 +56,13 @@ export async function getApplications({
 }) {
   try {
     const skip = (page - 1) * pageSize
+    const safeSearch = search.replace(/[^\w\s]/gi, "")
 
     const where = {
       OR: [
-        { name: { contains: search, mode: Prisma.QueryMode.insensitive } },
-        { surname: { contains: search, mode: Prisma.QueryMode.insensitive } },
-        { groupNumber: isNaN(Number(search)) ? undefined : Number(search) },
+        { name: { contains: safeSearch, mode: Prisma.QueryMode.insensitive } },
+        { surname: { contains: safeSearch, mode: Prisma.QueryMode.insensitive } },
+        { groupNumber: isNaN(Number(safeSearch)) ? undefined : Number(safeSearch) },
       ],
     }
 

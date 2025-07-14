@@ -1,6 +1,6 @@
 "use client"
 
-import { useEffect, useState } from "react"
+import { useEffect, useState,  useCallback} from "react"
 import { ExportButton } from "@/components/ExportButton"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -12,6 +12,7 @@ import { logout } from "@/actions/auth"
 import { CalendarDays, LogOutIcon, Users } from "lucide-react"
 import { AccordionHeader } from "@radix-ui/react-accordion"
 import { Skeleton } from "./ui/skeleton"
+import debounce from "lodash.debounce"
 
 export default function ApplicationsPageClient() {
   const [search, setSearch] = useState("")
@@ -21,18 +22,38 @@ export default function ApplicationsPageClient() {
     totalApplications: 0,
     applicationsToday: 0,
   })
+  const [isLoading, setIsLoading] = useState(true)
 
   const pageSize = 10
   const totalPages = Math.ceil(data.totalApplications / pageSize)
 
-  const fetchData = async () => {
-    const res = await getApplications({ page, pageSize, search })
-    setData(res)
-  }
+  useEffect(() => {
+    debouncedFetch(search, 1)
+    setPage(1)
+  }, [search])
 
   useEffect(() => {
-    fetchData()
-  }, [page, search])
+    fetchNow(search, page)
+  }, [page])
+
+  const debouncedFetch = useCallback(
+    debounce(async (searchValue: string, pageNumber: number) => {
+      setIsLoading(true)
+      const safeSearch = searchValue.replace(/[^\w\s]/gi, "")
+      const res = await getApplications({ page: pageNumber, pageSize, search: safeSearch })
+      setData(res)
+      setIsLoading(false)
+    }, 400),
+    []
+  )
+
+  const fetchNow = async (searchValue: string, pageNumber: number) => {
+    setIsLoading(true)
+    const safeSearch = searchValue.replace(/[^\w\s]/gi, "")
+    const res = await getApplications({ page: pageNumber, pageSize, search: safeSearch })
+    setData(res)
+    setIsLoading(false)
+  }
 
   return (
     <div className="space-y-4">
@@ -44,7 +65,7 @@ export default function ApplicationsPageClient() {
             value={search}
             onChange={(e) => {
               setSearch(e.target.value)
-              setPage(1) // filter o'zgarsa, 1-sahifadan boshlanadi
+              setPage(1)
             }}
             className="hidden md:flex max-w-sm"
           />
@@ -96,12 +117,18 @@ export default function ApplicationsPageClient() {
           <CardTitle>Barcha arizalar: {data.totalApplications}</CardTitle>
         </CardHeader>
         <CardContent>
-          {data.applications.length === 0 ? (
-            <Skeleton className="w-full h-12 flex items-center justify-between px-2 md:px-4 gap-x-4">
-              <p className="bg-gray-200 dark:bg-neutral-800 h-8 w-1/2 rounded-md"></p>
-              <p className="bg-gray-200 dark:bg-neutral-800 h-8 w-1/3 rounded-md"></p>
-              <p className="bg-gray-200 dark:bg-neutral-800 h-8 w-12 rounded-md"></p>
-            </Skeleton>
+          {isLoading ? (
+            <div className="space-y-2">
+              {[...Array(3)].map((_, i) => (
+                <Skeleton className="w-full h-12 flex items-center justify-between px-2 md:px-4 gap-x-4">
+                  <p className="bg-gray-200 dark:bg-neutral-800 h-8 w-1/2 rounded-md"></p>
+                  <p className="bg-gray-200 dark:bg-neutral-800 h-8 w-1/3 rounded-md"></p>
+                  <p className="bg-gray-200 dark:bg-neutral-800 h-8 w-12 rounded-md"></p>
+                </Skeleton>
+              ))}
+            </div>
+          ) : data.applications.length === 0 ? (
+            <p className="text-center text-muted-foreground">Hech narsa topilmadi.</p>
           ) : (
             <Accordion type="single" collapsible className="w-full">
               {data.applications.map((app: any) => (
@@ -121,11 +148,13 @@ export default function ApplicationsPageClient() {
                   </AccordionHeader>
                   <AccordionContent className="px-0 py-4 flex flex-col space-y-2">
                     <span className="text-sm text-muted-foreground pr-4">
-                        {format(new Date(app.createdAt), "PPP")}
+                      {format(new Date(app.createdAt), "PPP")}
                     </span>
                     <p className="text-muted-foreground">{app.phoneNumber}</p>
                     <strong className="md:text-lg">Ariza:</strong>
-                    <p className="border rounded-xl p-1 md:p-3 text-md md:text-lg whitespace-pre-wrap"> {app.message}</p>
+                    <p className="border rounded-xl p-1 md:p-3 text-md md:text-lg whitespace-pre-wrap">
+                      {app.message}
+                    </p>
                   </AccordionContent>
                 </AccordionItem>
               ))}
@@ -133,7 +162,6 @@ export default function ApplicationsPageClient() {
           )}
         </CardContent>
       </Card>
-
       {/* Pagination */}
       <div className="flex items-center justify-center gap-2">
         <Button variant="outline" disabled={page === 1} onClick={() => setPage((p) => p - 1)}>Oldingi</Button>
