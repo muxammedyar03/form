@@ -98,9 +98,9 @@ export default function ApplicationsPageClient() {
         <CardContent>
           {data.applications.length === 0 ? (
             <Skeleton className="w-full h-12 flex items-center justify-between px-2 md:px-4 gap-x-4">
-              <p className="bg-gray-200 h-8 w-1/2 rounded-md"></p>
-              <p className="bg-gray-200 h-8 w-1/3 rounded-md"></p>
-              <p className="bg-gray-200 h-8 w-12 rounded-md"></p>
+              <p className="bg-gray-200 dark:bg-neutral-800 h-8 w-1/2 rounded-md"></p>
+              <p className="bg-gray-200 dark:bg-neutral-800 h-8 w-1/3 rounded-md"></p>
+              <p className="bg-gray-200 dark:bg-neutral-800 h-8 w-12 rounded-md"></p>
             </Skeleton>
           ) : (
             <Accordion type="single" collapsible className="w-full">
