@@ -84,7 +84,7 @@ export default function ApplicationFormPage() {
                 Iltimos, ariza matnini rasmiy va akademik yozuv me'yorlariga mos ravishda yozing. Norasmiy ifodalar qabul qilinmasligi mumkin.
               </p>
             </div>
-            <Button type="submit" className="w-full flex items-center justify-center bg-indigo-600 hover:bg-indigo-700 h-12 px-8 text-lg" disabled={isSubmitting}>
+            <Button type="submit" className="w-full flex items-center justify-center dark:text-white bg-indigo-600 hover:bg-indigo-700 h-12 px-8 text-lg" disabled={isSubmitting}>
               {isSubmitting ? "Yuborilmoqda..." : "Ariza yuborish"}
             </Button>
           </form>

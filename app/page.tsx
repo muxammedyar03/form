@@ -37,7 +37,7 @@ export default function HomePage() {
           </h1>
 
           <Link href="/form">
-            <Button className="mt-6 flex items-center justify-center bg-sky-600 hover:bg-sky-700 h-12 md:h-14 px-4 md:px-8 text-md md:text-lg">Ariza topshirish </Button>
+            <Button className="mt-6 flex items-center justify-center dark:text-white bg-sky-600 hover:bg-sky-700 h-12 md:h-14 px-4 md:px-8 text-md md:text-lg">Ariza topshirish </Button>
           </Link>
         </main>
       </div>
