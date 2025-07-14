@@ -1,6 +1,7 @@
 "use server"
 
 import prisma from "@/lib/db"
+import { Prisma } from "@prisma/client"
 import { revalidatePath } from "next/cache"
 
 export async function submitApplication(formData: FormData) {
@@ -44,29 +45,43 @@ export async function submitApplication(formData: FormData) {
   }
 }
 
-export async function getApplications() {
+export async function getApplications({
+  page = 1,
+  pageSize = 10,
+  search = "",
+}: {
+  page?: number
+  pageSize?: number
+  search?: string
+}) {
   try {
-    const applications = await prisma.application.findMany({
-      orderBy: {
-        createdAt: "desc",
-      },
-    })
+    const skip = (page - 1) * pageSize
 
-    const totalApplications = await prisma.application.count()
+    const where = {
+      OR: [
+        { name: { contains: search, mode: Prisma.QueryMode.insensitive } },
+        { surname: { contains: search, mode: Prisma.QueryMode.insensitive } },
+        { groupNumber: isNaN(Number(search)) ? undefined : Number(search) },
+      ],
+    }
 
-    const today = new Date()
-    today.setHours(0, 0, 0, 0) // Start of today
-    const tomorrow = new Date(today)
-    tomorrow.setDate(today.getDate() + 1) // Start of tomorrow
-
-    const applicationsToday = await prisma.application.count({
-      where: {
-        createdAt: {
-          gte: today,
-          lt: tomorrow,
+    const [applications, totalApplications, applicationsToday] = await Promise.all([
+      prisma.application.findMany({
+        where,
+        orderBy: { createdAt: "desc" },
+        skip,
+        take: pageSize,
+      }),
+      prisma.application.count({ where }),
+      prisma.application.count({
+        where: {
+          createdAt: {
+            gte: new Date(new Date().setHours(0, 0, 0, 0)),
+            lt: new Date(new Date().setHours(24, 0, 0, 0)),
+          },
         },
-      },
-    })
+      }),
+    ])
 
     return { applications, totalApplications, applicationsToday }
   } catch (error) {

@@ -9,6 +9,7 @@ import { submitApplication } from "@/actions/application"
 import { useState } from "react"
 import { useToast } from "@/hooks/use-toast"
 import { redirect } from "next/navigation"
+import { InfoIcon } from "lucide-react"
 
 export default function ApplicationFormPage() {
   const [isSubmitting, setIsSubmitting] = useState(false)
@@ -41,8 +42,8 @@ export default function ApplicationFormPage() {
     <div className="flex min-h-[100dvh] items-center justify-center bg-gray-100 px-4 py-8 dark:bg-background">
       <Card className="w-full max-w-2xl shadow-lg">
         <CardHeader className="space-y-1 text-center">
-          <CardTitle className="text-4xl font-bold py-2">Ariza Formasi</CardTitle>
-          <CardDescription className="text-base">Ariza yuborish uchun kerakli ustunlarni to'ldiring.</CardDescription>
+          <CardTitle className="text-2xl md:text-4xl font-bold py-2">Ariza Formasi</CardTitle>
+          <CardDescription className="text-sm md:text-base">Ariza yuborish uchun kerakli ustunlarni to'ldiring.</CardDescription>
         </CardHeader>
         <CardContent>
           <form id="application-form" action={handleSubmit} className="space-y-6">
@@ -78,6 +79,10 @@ export default function ApplicationFormPage() {
             <div className="space-y-2">
               <Label htmlFor="message">Ariza mazmuni</Label>
               <Textarea id="message" name="message" placeholder="Men " required rows={5} />
+              <p className="text-xs flex gap-x-2">
+                <InfoIcon className="text-orange-600" />
+                Iltimos, ariza matnini rasmiy va akademik yozuv me'yorlariga mos ravishda yozing. Norasmiy ifodalar qabul qilinmasligi mumkin.
+              </p>
             </div>
             <Button type="submit" className="w-full flex items-center justify-center bg-indigo-600 hover:bg-indigo-700 h-12 px-8 text-lg" disabled={isSubmitting}>
               {isSubmitting ? "Yuborilmoqda..." : "Ariza yuborish"}
