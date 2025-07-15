@@ -4,9 +4,7 @@ import { cookies } from "next/headers"
 import { redirect } from "next/navigation"
 import prisma from "@/lib/db"
 import { SignJWT, jwtVerify } from "jose"
-import bcrypt from "bcryptjs"
 
-// Ensure AUTH_SECRET is set in your environment variables
 const secretKey = process.env.AUTH_SECRET
 if (!secretKey) {
   throw new Error("AUTH_SECRET environment variable is not set.")
@@ -59,7 +57,7 @@ export async function login(_: any, formData: FormData) {
     secure: process.env.NODE_ENV === "production",
   })
 
-  redirect("/applications") // redirects only if login is successful
+  redirect("/applications")
 }
 
 export async function logout() {
@@ -71,7 +69,7 @@ export async function logout() {
 export async function getSession() {
   'use server'
 
-  const cookieStore = await cookies() // hali `await` bo‘lishi kerak
+  const cookieStore = await cookies()
   const session = cookieStore.get("session")?.value
   if (!session) return null
   return await decrypt(session)
