@@ -9,7 +9,7 @@ import { format } from "date-fns"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion"
 import { logout } from "@/actions/auth"
-import { CalendarDays, Loader2Icon, LogOutIcon, Upload, Users } from "lucide-react"
+import { CalendarDays, Loader2Icon, LogOutIcon, Users } from "lucide-react"
 import { AccordionHeader } from "@radix-ui/react-accordion"
 import { Skeleton } from "./ui/skeleton"
 import debounce from "lodash.debounce"
@@ -17,6 +17,7 @@ import { usePermission } from "@/context/PermissionContext"
 import UploadExcel from "./FIleUploadForm"
 import { Dialog, DialogClose, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "./ui/dialog"
 import Image from "next/image"
+import ms_excel from '/public/ms_excel.webp'
 
 export default function ApplicationsPageClient() {
   const [search, setSearch] = useState("")
@@ -89,7 +90,7 @@ export default function ApplicationsPageClient() {
               <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
                 <DialogTrigger asChild>
                   <Button variant="outline" className="w-full h-12 md:h-auto px-2 md:px-6">
-                    <Image src={'https://upload.wikimedia.org/wikipedia/commons/thumb/3/34/Microsoft_Office_Excel_%282019%E2%80%93present%29.svg/2203px-Microsoft_Office_Excel_%282019%E2%80%93present%29.svg.png'} loading="lazy" alt="exel" width={25} height={25}/>
+                    <Image src={ms_excel} loading="lazy" alt="exel" width={25} height={25}/>
                     Import
                   </Button>
                 </DialogTrigger>
@@ -141,7 +142,7 @@ export default function ApplicationsPageClient() {
             <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
               <DialogTrigger asChild>
                 <Button variant="outline" className="w-full h-12 md:h-auto px-2 md:px-6">
-                  <Image src={'https://upload.wikimedia.org/wikipedia/commons/thumb/3/34/Microsoft_Office_Excel_%282019%E2%80%93present%29.svg/2203px-Microsoft_Office_Excel_%282019%E2%80%93present%29.svg.png'} loading="lazy" alt="exel" width={25} height={25}/>
+                  <Image src={ms_excel} loading="lazy" alt="exel" width={25} height={25}/>
                   Import
                 </Button>
               </DialogTrigger>
@@ -181,12 +182,12 @@ export default function ApplicationsPageClient() {
                     <AccordionHeader className="p-0">
                       <AccordionTrigger className="flex justify-between items-center w-full active:no-underline hover:no-underline p-0 py-2 md:p-3">
                         <div className="flex flex-1 flex-col items-start text-start no-underline">
-                          <p className="text-xl">{app.name} {app.surname}</p>
+                          <AccordionHeader>{app.name} {app.surname}</AccordionHeader>
                         </div>
                         <div className="flex-1">
                           <p>{app.groupNumber}-guruh</p>
                         </div>
-                        <span className="hidden md:flex text-sm text-muted-foreground pr-4">
+                        <span className="hidden flex-1 justify-end md:flex text-sm text-muted-foreground pr-4">
                           {format(new Date(app.createdAt), "PPP")}
                         </span>
                       </AccordionTrigger>

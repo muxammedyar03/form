@@ -6,6 +6,7 @@ import * as XLSX from "xlsx"
 import { Loader2 } from "lucide-react"
 import { useToast } from "@/hooks/use-toast";
 import Image from "next/image"
+import ms_excel from '/public/ms_excel.webp'
 
 export function ExportButton() {
   const [isLoading, setIsLoading] = React.useState(false)
@@ -51,7 +52,7 @@ export function ExportButton() {
         </>
       ) : (
         <>
-          <Image src={'https://upload.wikimedia.org/wikipedia/commons/thumb/3/34/Microsoft_Office_Excel_%282019%E2%80%93present%29.svg/2203px-Microsoft_Office_Excel_%282019%E2%80%93present%29.svg.png'} loading="lazy" alt="exel" width={25} height={25}/>
+          <Image src={ms_excel} loading="lazy" alt="exel" width={25} height={25}/>
           Yuklash
         </>
       )}
