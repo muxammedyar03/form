@@ -9,11 +9,14 @@ import { format } from "date-fns"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion"
 import { logout } from "@/actions/auth"
-import { CalendarDays, Loader2Icon, LogOutIcon, Users } from "lucide-react"
+import { CalendarDays, Loader2Icon, LogOutIcon, Upload, Users } from "lucide-react"
 import { AccordionHeader } from "@radix-ui/react-accordion"
 import { Skeleton } from "./ui/skeleton"
 import debounce from "lodash.debounce"
 import { usePermission } from "@/context/PermissionContext"
+import UploadExcel from "./FIleUploadForm"
+import { Dialog, DialogClose, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "./ui/dialog"
+import Image from "next/image"
 
 export default function ApplicationsPageClient() {
   const [search, setSearch] = useState("")
@@ -24,6 +27,7 @@ export default function ApplicationsPageClient() {
     applicationsToday: 0,
   })
   const [isLoading, setIsLoading] = useState(true)
+  const [dialogOpen, setDialogOpen] = useState(false);
 
   const pageSize = 10
   const totalPages = Math.ceil(data.totalApplications / pageSize)
@@ -59,19 +63,14 @@ export default function ApplicationsPageClient() {
 
   return (
     <div className="relative">
-      {!hasPermission && !loading && (
-        <div className="absolute inset-0 top-0 left-0 right-0 bottom-0 flex flex-col space-y-4 items-center justify-center bg-gray-100/85 dark:bg-neutral-900/50 backdrop-blur-sm dark:backdrop-blur-md z-50">
-          <p className="text-lg text-red-500">Sizda bu sahifaga kirish huquqi yo'q.</p>
-          <form action={logout}>
-            <Button variant="outline" className="text-red-500"> <LogOutIcon/> Chiqish</Button>
-          </form>
-        </div>
-      )}
+
       {loading && (
         <div className="absolute inset-0 top-0 left-0 right-0 h-screen bottom-0 flex items-center justify-center bg-gray-100/85 dark:bg-neutral-900/50 backdrop-blur-sm dark:backdrop-blur-md z-50">
           <Loader2Icon className="text-current w-20 h-20 animate-spin"/>
         </div>
       )}
+
+      {/* <UploadExcel onSuccess={() => fetchNow(search, page)}/> */}
       <div className="space-y-4">
         <div className="flex items-center justify-between">
           <h1 className="text-2xl md:text-3xl font-bold">Boshqaruv paneli</h1>
@@ -85,8 +84,23 @@ export default function ApplicationsPageClient() {
               }}
               className="hidden md:flex max-w-sm"
             />
-            <div className="hidden md:flex">
+            <div className="hidden md:flex gap-x-4">
               <ExportButton />
+              <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
+                <DialogTrigger asChild>
+                  <Button variant="outline" className="w-full h-12 md:h-auto px-2 md:px-6">
+                    <Image src={'https://upload.wikimedia.org/wikipedia/commons/thumb/3/34/Microsoft_Office_Excel_%282019%E2%80%93present%29.svg/2203px-Microsoft_Office_Excel_%282019%E2%80%93present%29.svg.png'} loading="lazy" alt="exel" width={25} height={25}/>
+                    Import
+                  </Button>
+                </DialogTrigger>
+                <DialogContent className="sm:max-w-lg">
+                  <DialogHeader>
+                    <DialogTitle>Excel faylini yuklash</DialogTitle>
+                  </DialogHeader>
+                  <UploadExcel onSuccess={() => { fetchNow(search, page); setDialogOpen(false) }}/>
+                  <DialogClose />
+                </DialogContent>
+              </Dialog>
             </div>
             <form action={logout}>
               <Button variant="outline" className="text-red-500"> <LogOutIcon/> Chiqish</Button>
@@ -123,7 +137,22 @@ export default function ApplicationsPageClient() {
             }}
             className="flex-1 h-12"
           />
-          <div className="min-w-32">
+          <div className="min-w-32 flex gap-x-2">
+            <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
+              <DialogTrigger asChild>
+                <Button variant="outline" className="w-full h-12 md:h-auto px-2 md:px-6">
+                  <Image src={'https://upload.wikimedia.org/wikipedia/commons/thumb/3/34/Microsoft_Office_Excel_%282019%E2%80%93present%29.svg/2203px-Microsoft_Office_Excel_%282019%E2%80%93present%29.svg.png'} loading="lazy" alt="exel" width={25} height={25}/>
+                  Import
+                </Button>
+              </DialogTrigger>
+              <DialogContent className="sm:max-w-lg">
+                <DialogHeader>
+                  <DialogTitle>Excel faylini yuklash</DialogTitle>
+                </DialogHeader>
+                <UploadExcel onSuccess={() => { fetchNow(search, page); setDialogOpen(false) }}/>
+                <DialogClose />
+              </DialogContent>
+            </Dialog>
             <ExportButton />
           </div>
         </div>
@@ -182,7 +211,7 @@ export default function ApplicationsPageClient() {
         <div className="flex items-center justify-center gap-2">
           <Button variant="outline" disabled={page === 1} onClick={() => setPage((p) => p - 1)}>Oldingi</Button>
           <span className="px-2">Sahifa {page} / {totalPages || 1}</span>
-          <Button variant="outline" disabled={page === totalPages} onClick={() => setPage((p) => p + 1)}>Keyingi</Button>
+          <Button variant="outline" disabled={page === totalPages || data.applications.length < 10} onClick={() => setPage((p) => p + 1)}>Keyingi</Button>
         </div>
       </div>
     </div>

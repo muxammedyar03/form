@@ -3,12 +3,13 @@
 import { Button } from "@/components/ui/button"
 import React from "react"
 import * as XLSX from "xlsx"
-import { DownloadIcon, Loader2 } from "lucide-react"
-import { toast } from "./ui/use-toast"
+import { Loader2 } from "lucide-react"
+import { useToast } from "@/hooks/use-toast";
 import Image from "next/image"
 
 export function ExportButton() {
   const [isLoading, setIsLoading] = React.useState(false)
+  const { toast } = useToast();
 
   const handleExport = async () => {
     setIsLoading(true)
@@ -31,7 +32,6 @@ export function ExportButton() {
             description: "Foydalanuvchi yoki parol noto‘g‘ri.",
             variant: "destructive",
         })
-      console.error(error)
     } finally {
       setIsLoading(false)
       toast({
