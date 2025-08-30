@@ -13,7 +13,7 @@ import { CalendarDays, Loader2Icon, LogOutIcon, Users } from "lucide-react"
 import { AccordionHeader } from "@radix-ui/react-accordion"
 import { Skeleton } from "./ui/skeleton"
 import debounce from "lodash.debounce"
-import { usePermission } from "@/context/PermissionContext"
+// import { usePermission } from "@/context/PermissionContext"
 import UploadExcel from "./FIleUploadForm"
 import { Dialog, DialogClose, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "./ui/dialog"
 import Image from "next/image"
@@ -32,7 +32,7 @@ export default function ApplicationsPageClient() {
 
   const pageSize = 10
   const totalPages = Math.ceil(data.totalApplications / pageSize)
-  const { hasPermission, loading } = usePermission()
+  // const { hasPermission, loading } = usePermission()
   
   useEffect(() => {
     debouncedFetch(search, 1)
@@ -64,13 +64,6 @@ export default function ApplicationsPageClient() {
 
   return (
     <div className="relative">
-
-      {loading && (
-        <div className="absolute inset-0 top-0 left-0 right-0 h-screen bottom-0 flex items-center justify-center bg-gray-100/85 dark:bg-neutral-900/50 backdrop-blur-sm dark:backdrop-blur-md z-50">
-          <Loader2Icon className="text-current w-20 h-20 animate-spin"/>
-        </div>
-      )}
-
       {/* <UploadExcel onSuccess={() => fetchNow(search, page)}/> */}
       <div className="space-y-4">
         <div className="flex items-center justify-between">
