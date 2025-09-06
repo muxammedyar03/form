@@ -6,8 +6,8 @@ import { LogInIcon } from "lucide-react"
 import { Metadata } from "next"
 
 export const metadata: Metadata = {
-  title: "Asosiy sahifa – Ariza topshirish",
-  description: "Samarqand Davlat Veterinariya Meditsinasi Universiteti Nukus filialining ariza topshirish tizimi."
+  title: "Asosiy sahifa",
+  description: "Onlayn arizalar qabul qilish tizimi."
 }
 
 export default function HomePage() {
@@ -32,8 +32,8 @@ export default function HomePage() {
 
         {/* Main content */}
         <main className="flex flex-col items-center justify-center flex-1 text-center p-3 md:p-6">
-          <h1 className="text-2xl md:text-3xl lg:text-4xl lg:!leading-[3rem] font-bold mb-4 md:w-3/4 lg:w-1/2">
-            SAMARQAND DAVLAT VETERINARIYA MEDITSINASI, CHORVACHILIK VA BIOTEXNOLOGIYALAR UNIVERSITETI NUKUS FILIALI
+          <h1 className="text-2xl md:text-3xl lg:text-4xl lg:!leading-[3rem] uppercase font-bold mb-4 md:w-3/4 lg:w-1/2">
+            Onlayn arizalar qabul qilish tizimi
           </h1>
 
           <Link href="/form">

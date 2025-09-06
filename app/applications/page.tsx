@@ -5,7 +5,7 @@ import { Metadata } from "next"
 
 export const metadata: Metadata = {
   title: "Arizalar - Boshqaruv paneli",
-  description: "Samarqand Davlat Veterinariya Meditsinasi Universiteti Nukus filialining ariza topshirish tizimi."
+  description: "Onlayn arizalar qabul qilish tizimi"
 }
 
 
